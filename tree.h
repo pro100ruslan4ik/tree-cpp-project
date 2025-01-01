@@ -16,21 +16,48 @@ class Node
 template <typename T>
 class Tree
 {
-
-
     public:
         Tree() : root(nullptr){}
+        ~Tree();
 
         void Insert(T value);
         void PrintInAscendingOrder() const;
+        void Clear();
 
     private:
         Node<T>* root;
 
         void InsertRecursive(Node<T>*&, T);
         void InOrderPrintRecursive(Node<T>*) const;
+        void ClearRecursive(Node<T>*&);
 
 };
+
+template <typename T>
+void Tree<T>::ClearRecursive(Node<T>*& node)
+{
+    if (node == nullptr)
+        return;
+
+    ClearRecursive(node->left);
+    ClearRecursive(node->right);
+    
+    delete node;
+    node = nullptr;
+}
+
+template <typename T>
+void Tree<T>::Clear()
+{
+    ClearRecursive(root);
+    root = nullptr;
+}
+
+template <typename T>
+Tree<T>::~Tree()
+{
+    ClearRecursive(root);
+}
 
 template <typename T>
 void Tree<T>::Insert(T value)
