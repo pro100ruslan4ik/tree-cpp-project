@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 class Node
@@ -23,6 +24,7 @@ class Tree
         void Insert(T value);
         void PrintInAscendingOrder() const;
         void Clear();
+        int Height();
 
     private:
         Node<T>* root;
@@ -30,8 +32,12 @@ class Tree
         void InsertRecursive(Node<T>*&, T);
         void InOrderPrintRecursive(Node<T>*) const;
         void ClearRecursive(Node<T>*&);
+        int HeightRecursive(Node<T>*, int) const;
+        
 
 };
+
+
 
 template <typename T>
 void Tree<T>::ClearRecursive(Node<T>*& node)
@@ -59,6 +65,8 @@ Tree<T>::~Tree()
     ClearRecursive(root);
 }
 
+
+
 template <typename T>
 void Tree<T>::Insert(T value)
 {
@@ -80,6 +88,8 @@ void Tree<T>::InsertRecursive(Node<T>*& node, T value)
         InsertRecursive(node->right, value);
 }
 
+
+
 template <typename T>
 void Tree<T>::PrintInAscendingOrder() const
 {
@@ -98,4 +108,22 @@ void Tree<T>::InOrderPrintRecursive(Node<T>* node) const
     std::cout << node->data << " ";
 
     InOrderPrintRecursive(node->right);
+}
+
+
+
+template <typename T>
+int Tree<T>::Height()
+{
+    return HeightRecursive(root, 0);
+}
+
+template <typename T>
+int Tree<T>::HeightRecursive(Node<T>* node, int currentHeight) const
+{
+    if (node == nullptr)
+        return currentHeight;
+
+    return std::max(HeightRecursive(node->left, currentHeight+1),
+               HeightRecursive(node->right, currentHeight+1));
 }
