@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include "tree.h"
 
 //TODO: Метод Find() 
@@ -27,14 +28,17 @@ int main()
     tree.Insert(1);
 
     tree.PrintInAscendingOrder();
+    std::cout << tree.Height() << std::endl;
 
     tree.Clear();
+    std::cout << tree.Height() << std::endl;
 
     tree.Insert(-2);
     tree.Insert(-6);
     tree.Insert(-1);
 
     tree.PrintInAscendingOrder();
+    std::cout << tree.Height() << std::endl;
 
     return 0;
 }
