@@ -21,10 +21,11 @@ class Tree
         Tree() : root(nullptr){}
         ~Tree();
 
-        void Insert(T value);
+        void Insert(T);
         void PrintInAscendingOrder() const;
         void Clear();
         int Height();
+        Node<T>* Find(T);
 
     private:
         Node<T>* root;
@@ -33,6 +34,8 @@ class Tree
         void InOrderPrintRecursive(Node<T>*) const;
         void ClearRecursive(Node<T>*&);
         int HeightRecursive(Node<T>*, int) const;
+        Node<T>* FindRecursive(Node<T>*, T) const;
+
         
 
 };
@@ -124,6 +127,26 @@ int Tree<T>::HeightRecursive(Node<T>* node, int currentHeight) const
     if (node == nullptr)
         return currentHeight;
 
-    return std::max(HeightRecursive(node->left, currentHeight+1),
-               HeightRecursive(node->right, currentHeight+1));
+    return std::max(HeightRecursive(node->left, currentHeight + 1),
+               HeightRecursive(node->right, currentHeight + 1));
+}
+
+
+
+template <typename T>
+Node<T>* Tree<T>::Find(T value)
+{
+    return FindRecursive(root, value);
+}
+
+template <typename T>
+Node<T>* Tree<T>::FindRecursive(Node<T>* node, T value) const
+{
+    if (node == nullptr || node->data == value)
+        return node;
+
+    if (value < node->data)
+        return FindRecursive(node->left, value);
+    else
+        return FindRecursive(node->right, value);
 }
